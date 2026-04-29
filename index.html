@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Nobody</title>
+    <link rel="icon" href="./assets/rubber-duck.png" type="image/png">
+    
+    <!-- Tích hợp Tailwind CSS qua CDN để định dạng giao diện nhanh chóng -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tích hợp FontAwesome cho các icon mạng xã hội và UI -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tích hợp Google Fonts (Plus Jakarta Sans) cho font chữ hiện đại -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Cấu hình CSS tùy chỉnh và Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS cho hiệu ứng kính mờ (Glassmorphism) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+        
+        .glass-button {
+            transition: all 0.3s ease;
+        }
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.15);
+        }
+
+        /* Ẩn thanh cuộn nhưng vẫn cho phép cuộn */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800 font-sans antialiased relative min-h-screen overflow-x-hidden selection:bg-pink-200 selection:text-pink-900">
+
+    <!-- Background Elements (Các khối màu chuyển động phía sau) -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Main Container (Giới hạn chiều rộng cho giống giao diện điện thoại) -->
+    <main class="relative z-10 max-w-md mx-auto w-full px-5 py-10 flex flex-col items-center">
+        
+        <!-- Nút Chia sẻ (Góc trên phải) -->
+        <button onclick="shareProfile()" class="absolute top-6 right-6 w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </button>
+
+        <!-- 1. Khu vực Profile -->
+        <div class="flex flex-col items-center mb-8">
+            <div class="relative">
+                <img src="./assets/avatar.png" alt="Profile Picture" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg mb-4">
+                <div class="absolute bottom-4 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                Không Ai Cả 
+                <i class="fa-solid fa-circle-check text-blue-500 text-sm" title="Verified"></i>
+            </h1>
+            <p class="text-gray-600 text-center mt-2 text-sm px-4">
+                Cảm ơn bạn đã ghé qua 🚀<br>
+                Gợi ý cho bạn những món đồ đáng tiền nhất!
+            </p>
+        </div>
+
+        <!-- 2. Mạng xã hội -->
+        <div class="flex gap-4 mb-8">
+            <a href="https://www.tiktok.com/@little_everything2" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-pink-500 hover:scale-110 transition-all">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+            <!-- <a href="#" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-red-500 hover:scale-110 transition-all">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+            <a href="#" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-blue-600 hover:scale-110 transition-all">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="#" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-purple-500 hover:scale-110 transition-all">
+                <i class="fa-brands fa-instagram"></i>
+            </a> -->
+        </div>
+
+        <!-- Products Container -->
+        <div id="product-container" class="w-full space-y-8 mb-4">
+            <!-- Products will be rendered here by JavaScript -->
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 mb-6 text-center">
+            <p class="text-xs text-gray-500">
+                Tạo bởi <span class="font-semibold text-gray-800">KhôngAiCả</span> © 2026
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- Toast Thông báo (Ẩn mặc định) -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+        Đã copy link vào clipboard!
+    </div>
+
+    <!-- Script xử lý các tương tác nhỏ và API -->
+    <script>
+        const productData = [
+            {
+                category: "📚 Sách hay",
+                items: [
+                    {
+                        name: "Búp sen xanh",
+                        desc: "\"Những năm tháng tuổi thơ và thanh xuân đã ươm mầm nên lý tưởng vĩ đại của Chủ tịch Hồ Chí Minh.\"",
+                        url: "https://s.shopee.vn/3B3kiXHhIc",
+                        image: "./assets/images/bupsenxanh.jpg",
+                        imgLeft: true,
+                        isFeatured: true
+                    },
+                    {
+                        name: "Trốn lên mái nhà để khóc",
+                        desc: "\"Ổn thôi, cứ khóc đi. Rồi mọi thứ sẽ dịu lại.\"",
+                        url: "https://s.shopee.vn/3B3kiXHhIc",
+                        image: "./assets/images/tronlenmainha.jpg",
+                        imgLeft: false,
+                        isFeatured: true
+                    },
+                    {
+                        name: "Kỷ luật bản thân",
+                        desc: "\"Giai đoạn khó khăn tạo ra người mạnh mẽ. Nhưng sự dễ dãi, buông thả sẽ tự động tạo ra những kẻ yếu đuối.\"",
+                        url: "https://s.shopee.vn/8fOhGjdHq0",
+                        image: "./assets/images/ky-luat-ban-than.jpg",
+                        imgLeft: true,
+                        isFeatured: true
+                    },
+                    {
+                        name: "Combo 2 cuốn: Tư duy ngược và Tư duy mở",
+                        desc: "\"Người bình thường nhìn thấy bế tắc trong khó khăn. Người có tư duy ngược nhìn thấy cơ hội ngay trong chính sự bế tắc đó.\"",
+                        url: "https://s.shopee.vn/6fdctALO2Y",
+                        image: "./assets/images/tuduynguoc.jpg",
+                        imgLeft: false
+                    },
+                    {
+                        name: "Chiến thắng con quỷ trong bạn",
+                        desc: "\"Thói quen trì hoãn, lười biếng và thiếu một mục đích chính xác là những cánh cửa mở toang để sự yếu đuối bước vào và chiếm lấy tâm trí bạn.\"",
+                        url: "https://s.shopee.vn/4qByk7tmmf",
+                        image: "./assets/images/conquytrongban.jpg",
+                        imgLeft: true
+                    }
+                ]
+            },
+            {
+                category: "💻 Decor",
+                items: [
+                    {
+                        name: "Chuột Logitech MX Master 3S",
+                        desc: "Chuột xịn nhất cho dân văn phòng",
+                        url: "#",
+                        image: "https://images.unsplash.com/photo-1527443195645-1133f7f28990?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+                        imgLeft: false
+                    },
+                    {
+                        name: "Micro thu âm Podcast mình dùng",
+                        desc: "Lọc âm tốt, cắm là chạy",
+                        url: "#",
+                        icon: "fa-solid fa-microphone-lines",
+                        iconBg: "bg-indigo-100",
+                        iconColor: "text-indigo-500",
+                        imgLeft: true
+                    }
+                ]
+            }
+        ];
+
+        function renderProducts() {
+            const container = document.getElementById('product-container');
+            let html = '';
+
+            productData.forEach(section => {
+                html += `<div class="w-full space-y-4">
+                    <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 px-2">${section.category}</h2>`;
+                
+                section.items.forEach(item => {
+                    const imgSize = item.isFeatured ? 'w-16 h-16' : 'w-14 h-14';
+                    
+                    let visualElement = '';
+                    if (item.image) {
+                        visualElement = `
+                            <div class="${imgSize} rounded-lg overflow-hidden shrink-0 relative">
+                                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                            </div>
+                        `;
+                    } else if (item.icon) {
+                        visualElement = `
+                            <div class="${imgSize} rounded-lg ${item.iconBg || 'bg-gray-100'} flex items-center justify-center ${item.iconColor || 'text-gray-500'} text-xl shrink-0">
+                                <i class="${item.icon}"></i>
+                            </div>
+                        `;
+                    }
+
+                    const arrowRight = `
+                        <div class="w-8 flex justify-center text-gray-400 group-hover:${item.isFeatured ? 'text-pink-500' : 'text-gray-900'} transition-colors">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    `;
+
+                    const arrowLeft = `
+                        <div class="w-8 flex justify-center text-gray-400 group-hover:text-gray-900 transition-colors">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </div>
+                    `;
+
+                    const textLeft = `
+                        <div class="flex-1 text-left">
+                            <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
+                            <p class="text-xs text-gray-500">${item.desc}</p>
+                        </div>
+                    `;
+
+                    const textRight = `
+                        <div class="flex-1 text-right">
+                            <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
+                            <p class="text-xs text-gray-500">${item.desc}</p>
+                        </div>
+                    `;
+
+                    html += `<a href="${item.url}" target="_blank" class="glass-card glass-button rounded-xl p-2 flex items-center gap-4 group relative">`;
+                    
+                    if (item.imgLeft) {
+                        html += visualElement + textLeft + arrowRight;
+                    } else {
+                        html += arrowLeft + textRight + visualElement;
+                    }
+                    
+                    html += `</a>`;
+                });
+                
+                html += `</div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Gọi hàm render khi trang được tải
+        document.addEventListener('DOMContentLoaded', renderProducts);
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 3000);
+        }
+
+        async function shareProfile() {
+            const shareData = {
+                title: 'Góc Của Tớ | Affiliate Links',
+                text: 'Khám phá những món đồ hay ho mình đang sử dụng nhé!',
+                url: window.location.href
+            };
+
+            try {
+                // Thử dùng API Share của điện thoại (Native Share)
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    // Nếu dùng trên máy tính không hỗ trợ, sẽ copy link
+                    await navigator.clipboard.writeText(window.location.href);
+                    showToast('Đã copy đường link!');
+                }
+            } catch (err) {
+                console.error('Lỗi khi chia sẻ:', err);
+            }
+        }
+    </script>
+</body>
+</html>
