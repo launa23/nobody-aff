@@ -15,6 +15,7 @@
     <!-- Tích hợp Google Fonts (Plus Jakarta Sans) cho font chữ hiện đại -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="./assets/css/global.css">
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
@@ -42,95 +43,16 @@
             }
         }
     </script>
-
-    <style>
-        /* CSS cho hiệu ứng kính mờ (Glassmorphism) */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-        }
-        
-        .glass-button {
-            transition: all 0.3s ease;
-        }
-        .glass-button:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.15);
-        }
-
-        /* Ẩn thanh cuộn nhưng vẫn cho phép cuộn */
-        ::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-
-        /* CSS dành riêng cho Màn hình khóa TikTok */
-        #tiktok-block-screen {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        }
-        #tiktok-block-screen .page-container {
-            width: 100%; max-width: 400px; padding: 20px;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-        }
-        #tiktok-block-screen .shield-icon { width: 70px; height: 70px; fill: #a0a0a0; margin-bottom: 20px; }
-        #tiktok-block-screen .title { font-size: 20px; font-weight: 700; margin-bottom: 15px; color: #000; line-height: 1.3; }
-        #tiktok-block-screen .description { font-size: 15px; color: #757575; margin-bottom: 25px; line-height: 1.5; padding: 0 10px; }
-        #tiktok-block-screen .link-container { margin-bottom: 30px; word-wrap: break-word; width: 100%; }
-        #tiktok-block-screen .link-text { font-size: 14px; color: #757575; display: block; padding: 10px; }
-        #tiktok-block-screen .copy-button {
-            background-color: #f1f1f1; color: #333; border: none; padding: 12px 24px;
-            font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer;
-            display: flex; align-items: center; gap: 8px; transition: 0.2s;
-        }
-        #tiktok-block-screen .copy-button:hover { background-color: #e0e0e0; }
-        #tiktok-block-screen #copy-feedback { font-size: 14px; color: #4caf50; display: none; margin-top: 15px; font-weight: bold; }
-
-        /* CSS cho Toast Message */
-        #custom-toast {
-            visibility: hidden;
-            min-width: 200px;
-            background-color: #323232;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 12px 16px;
-            position: fixed;
-            z-index: 9999999;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out, bottom 0.3s ease-in-out;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        /* Class kích hoạt Toast hiển thị */
-        #custom-toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px; /* Trượt nhẹ lên trên */
-        }
-    </style>
 </head>
-<body class="bg-slate-50 text-gray-800 font-sans antialiased relative min-h-screen overflow-x-hidden selection:bg-pink-200 selection:text-pink-900">
+<body class="text-gray-800 font-sans antialiased relative min-h-screen overflow-x-hidden selection:bg-pink-200 selection:text-pink-900">
 
-    <!-- Background Elements (Các khối màu chuyển động phía sau) -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob"></div>
-        <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-2000"></div>
-        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-4000"></div>
-    </div>
+    <!-- Background Elements đã được ẩn vì đang dùng ảnh nền -->
 
     <!-- Main Container (Giới hạn chiều rộng cho giống giao diện điện thoại) -->
     <main class="relative z-10 max-w-md mx-auto w-full px-5 py-10 flex flex-col items-center">
         
         <!-- Nút Chia sẻ (Góc trên phải) -->
-        <button onclick="shareProfile()" class="absolute top-6 right-6 w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors">
+        <button onclick="shareProfile()" style="background: transparent;" class="absolute top-6 right-6 w-10 h-10 rounded-full glass-card flex items-center justify-center text-white hover:text-white/70 transition-colors">
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </button>
 
@@ -140,11 +62,11 @@
                 <img src="./assets/avatar.png" alt="Profile Picture" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg mb-4">
                 <div class="absolute bottom-4 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
             </div>
-            <h1 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <h1 class="text-2xl font-bold text-white drop-shadow flex items-center gap-2">
                 Không Ai Cả 
-                <i class="fa-solid fa-circle-check text-blue-500 text-sm" title="Verified"></i>
+                <i class="fa-solid fa-circle-check text-blue-300 text-sm" title="Verified"></i>
             </h1>
-            <p class="text-gray-600 text-center mt-2 text-sm px-4">
+            <p class="text-white/80 text-center mt-2 text-sm px-4 drop-shadow">
                 Cảm ơn bạn đã ghé qua 🚀<br>
                 Gợi ý cho bạn những món đồ đáng tiền nhất!
             </p>
@@ -152,7 +74,7 @@
 
         <!-- 2. Mạng xã hội -->
         <div class="flex gap-4 mb-8">
-            <a href="https://www.tiktok.com/@little_everything2" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-pink-500 hover:scale-110 transition-all">
+            <a href="https://www.tiktok.com/@little_everything2" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-white hover:text-pink-300 hover:scale-110 transition-all" style="background: transparent;">
                 <i class="fa-brands fa-tiktok"></i>
             </a>
         </div>
@@ -164,8 +86,8 @@
 
         <!-- Footer -->
         <footer class="mt-12 mb-6 text-center">
-            <p class="text-xs text-gray-500">
-                Tạo bởi <span class="font-semibold text-gray-800">KhôngAiCả</span> © 2026
+            <p class="text-xs text-white/60">
+                Tạo bởi <span class="font-semibold text-white/90">KhôngAiCả</span> © 2026
             </p>
         </footer>
 
@@ -304,65 +226,37 @@
             let html = '';
 
             productData.forEach(section => {
-                html += `<div class="w-full space-y-4">
-                    <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 px-2">${section.category}</h2>`;
-                
+                html += `<div class="w-full">
+                    <h2 class="text-xs font-bold text-white uppercase tracking-wider mb-3 px-1">${section.category}</h2>
+                    <div class="grid grid-cols-2 gap-3">`;
+
                 section.items.forEach(item => {
-                    const imgSize = item.isFeatured ? 'w-16 h-16' : 'w-14 h-14';
-                    
-                    let visualElement = '';
+                    let imageHtml = '';
                     if (item.image) {
-                        visualElement = `
-                            <div class="${imgSize} rounded-lg overflow-hidden shrink-0 relative">
-                                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
-                            </div>
-                        `;
+                        imageHtml = `<img src="${item.image}" alt="${item.name}" class="w-full aspect-square object-cover">`;
                     } else if (item.icon) {
-                        visualElement = `
-                            <div class="${imgSize} rounded-lg ${item.iconBg || 'bg-gray-100'} flex items-center justify-center ${item.iconColor || 'text-gray-500'} text-xl shrink-0">
-                                <i class="${item.icon}"></i>
+                        imageHtml = `<div class="w-full aspect-square ${item.iconBg || 'bg-gray-100'} flex items-center justify-center ${item.iconColor || 'text-gray-500'} text-4xl">
+                            <i class="${item.icon}"></i>
+                        </div>`;
+                    }
+
+                    html += `
+                        <a href="${item.url}" target="_blank" class="glass-card glass-button rounded-xl overflow-hidden flex flex-col group">
+                            <div class="w-full overflow-hidden">
+                                ${imageHtml}
                             </div>
-                        `;
-                    }
-
-                    const arrowRight = `
-                        <div class="w-8 flex justify-center text-gray-400 group-hover:${item.isFeatured ? 'text-pink-500' : 'text-gray-900'} transition-colors">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </div>
-                    `;
-
-                    const arrowLeft = `
-                        <div class="w-8 flex justify-center text-gray-400 group-hover:text-gray-900 transition-colors">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </div>
-                    `;
-
-                    const textLeft = `
-                        <div class="flex-1 text-left">
-                            <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
-                            <p class="text-xs text-gray-500">${item.desc}</p>
-                        </div>
-                    `;
-
-                    const textRight = `
-                        <div class="flex-1 text-right">
-                            <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
-                            <p class="text-xs text-gray-500">${item.desc}</p>
-                        </div>
-                    `;
-
-                    html += `<a href="${item.url}" target="_blank" class="glass-card glass-button rounded-xl p-2 flex items-center gap-4 group relative">`;
-                    
-                    if (item.imgLeft) {
-                        html += visualElement + textLeft + arrowRight;
-                    } else {
-                        html += arrowLeft + textRight + visualElement;
-                    }
-                    
-                    html += `</a>`;
+                            <div class="p-2 flex flex-col gap-1">
+                                <h3 class="font-bold text-gray-900 text-xs leading-tight line-clamp-2">${item.name}</h3>
+                                <p class="text-xs text-gray-600 leading-tight line-clamp-3">${item.desc}</p>
+                                <div class="flex items-center gap-1 mt-1 text-orange-500 text-xs font-semibold">
+                                    <i class="fa-solid fa-bag-shopping text-xs"></i>
+                                    <span>Mua ngay</span>
+                                </div>
+                            </div>
+                        </a>`;
                 });
-                
-                html += `</div>`;
+
+                html += `</div></div>`;
             });
 
             container.innerHTML = html;
@@ -386,7 +280,7 @@
         async function shareProfile() {
             const shareData = {
                 title: 'Góc Của Tớ',
-                text: 'Khám phá những món đồ hay ho mình đang sử dụng nhé!',
+                text: 'Xìn chào không ai cả!',
                 url: window.location.href
             };
 
