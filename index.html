@@ -186,38 +186,75 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var isTikTok = /TikTok|Bytedance|musical_ly|ByteLocale/i.test(ua);
+            var isTest = window.location.search.includes('test=1');
 
-            // Bắt in-app browser của TikTok và Bytedance
-            var isTikTok = /TikTok|Bytedance|musical_ly|ByteLocale/i.test(userAgent);
-
-            if (isTikTok) {
-                var blockScreen = document.getElementById('tiktok-block-screen');
-                var urlDisplay = document.getElementById('link-to-copy');
-
-                // 1. Chèn link vào giao diện
-                if (urlDisplay) urlDisplay.innerText = "https://www.justnobody.cloud";
-
-                // 2. Hiển thị màn hình này lên (đổi từ none sang flex để dùng Flexbox)
-                if (blockScreen) {
-                    blockScreen.style.display = 'flex';
-                    document.body.style.overflow = 'hidden'; // Cấm cuộn trang gốc
-                }
+            if (isTikTok || isTest) {
+                document.getElementById('tiktok-block-screen').style.display = 'flex';
+                document.getElementById('display-url').innerText = window.location.href.split('?')[0];
+                document.body.style.overflow = 'hidden';
             }
         });
 
-        // Hàm thực thi việc copy
+        // Hàm copy đã được nâng cấp với 3 lớp Fallback
         function executeCopy() {
-            var linkText = document.getElementById("link-to-copy").innerText;
-            navigator.clipboard.writeText(linkText).then(function() {
-                var feedback = document.getElementById("copy-feedback");
-                feedback.style.display = "block";
-                setTimeout(function() {
-                    feedback.style.display = "none";
-                }, 3000);
-            }).catch(function(err) {
-                alert("Trình duyệt không hỗ trợ tự động copy. Vui lòng copy thủ công.");
-            });
+            var url = "https://www.justnobody.cloud"; // URL cần copy
+
+            // Lớp 1: Thử dùng Web Share API (Rất mượt trên iOS/Android)
+            // Thay vì copy, nó sẽ hiện menu chia sẻ gốc của điện thoại (có nút Copy Link, mở qua Safari...)
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Mở trang web',
+                    url: url
+                }).then(() => {
+                    console.log("Đã mở menu chia sẻ thành công");
+                }).catch(console.error);
+                return; // Nếu mở được menu share thì dừng ở đây
+            }
+
+            // Lớp 2: Dùng API Clipboard hiện đại (Dành cho trình duyệt xịn)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(function() {
+                    alert("Đã sao chép liên kết!");
+                }).catch(function() {
+                    // Nếu bị TikTok chặn, nhảy sang Lớp 3
+                    fallbackCopy(url);
+                });
+            } else {
+                // Nhảy sang Lớp 3
+                fallbackCopy(url);
+            }
+        }
+
+        // Lớp 3: Kỹ thuật Textarea tàng hình (Chuyên trị WebView TikTok/Zalo)
+        function fallbackCopy(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+
+            // Cố định vị trí để màn hình không bị giật
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0"; // Tàng hình
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                if (successful) {
+                    alert("Đã sao chép liên kết thành công!");
+                } else {
+                    alert("TikTok chặn copy. Vui lòng đè tay vào link trên màn hình để chép thủ công.");
+                }
+            } catch (err) {
+                alert("TikTok chặn copy. Vui lòng đè tay vào link trên màn hình để chép thủ công.");
+            }
+
+            // Dọn dẹp thẻ textarea sau khi dùng xong
+            document.body.removeChild(textArea);
         }
     </script>
     <!-- Script xử lý các tương tác nhỏ và API -->
