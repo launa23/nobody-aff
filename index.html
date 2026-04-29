@@ -304,65 +304,37 @@
             let html = '';
 
             productData.forEach(section => {
-                html += `<div class="w-full space-y-4">
-                    <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 px-2">${section.category}</h2>`;
-                
+                html += `<div class="w-full">
+                    <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">${section.category}</h2>
+                    <div class="grid grid-cols-2 gap-3">`;
+
                 section.items.forEach(item => {
-                    const imgSize = item.isFeatured ? 'w-16 h-16' : 'w-14 h-14';
-                    
-                    let visualElement = '';
+                    let imageHtml = '';
                     if (item.image) {
-                        visualElement = `
-                            <div class="${imgSize} rounded-lg overflow-hidden shrink-0 relative">
-                                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
-                            </div>
-                        `;
+                        imageHtml = `<img src="${item.image}" alt="${item.name}" class="w-full aspect-square object-cover">`;
                     } else if (item.icon) {
-                        visualElement = `
-                            <div class="${imgSize} rounded-lg ${item.iconBg || 'bg-gray-100'} flex items-center justify-center ${item.iconColor || 'text-gray-500'} text-xl shrink-0">
-                                <i class="${item.icon}"></i>
+                        imageHtml = `<div class="w-full aspect-square ${item.iconBg || 'bg-gray-100'} flex items-center justify-center ${item.iconColor || 'text-gray-500'} text-4xl">
+                            <i class="${item.icon}"></i>
+                        </div>`;
+                    }
+
+                    html += `
+                        <a href="${item.url}" target="_blank" class="glass-card glass-button rounded-xl overflow-hidden flex flex-col group">
+                            <div class="w-full overflow-hidden">
+                                ${imageHtml}
                             </div>
-                        `;
-                    }
-
-                    const arrowRight = `
-                        <div class="w-8 flex justify-center text-gray-400 group-hover:${item.isFeatured ? 'text-pink-500' : 'text-gray-900'} transition-colors">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </div>
-                    `;
-
-                    const arrowLeft = `
-                        <div class="w-8 flex justify-center text-gray-400 group-hover:text-gray-900 transition-colors">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </div>
-                    `;
-
-                    const textLeft = `
-                        <div class="flex-1 text-left">
-                            <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
-                            <p class="text-xs text-gray-500">${item.desc}</p>
-                        </div>
-                    `;
-
-                    const textRight = `
-                        <div class="flex-1 text-right">
-                            <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
-                            <p class="text-xs text-gray-500">${item.desc}</p>
-                        </div>
-                    `;
-
-                    html += `<a href="${item.url}" target="_blank" class="glass-card glass-button rounded-xl p-2 flex items-center gap-4 group relative">`;
-                    
-                    if (item.imgLeft) {
-                        html += visualElement + textLeft + arrowRight;
-                    } else {
-                        html += arrowLeft + textRight + visualElement;
-                    }
-                    
-                    html += `</a>`;
+                            <div class="p-2 flex flex-col gap-1">
+                                <h3 class="font-semibold text-gray-900 text-xs leading-tight line-clamp-2">${item.name}</h3>
+                                <p class="text-xs text-gray-400 leading-tight line-clamp-2">${item.desc}</p>
+                                <div class="flex items-center gap-1 mt-1 text-orange-500 text-xs font-semibold">
+                                    <i class="fa-solid fa-bag-shopping text-xs"></i>
+                                    <span>Mua ngay</span>
+                                </div>
+                            </div>
+                        </a>`;
                 });
-                
-                html += `</div>`;
+
+                html += `</div></div>`;
             });
 
             container.innerHTML = html;
