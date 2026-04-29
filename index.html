@@ -137,6 +137,15 @@
         Đã copy link vào clipboard!
     </div>
 
+    <div id="inapp-warning" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); color: white; z-index: 9999; text-align: center; padding-top: 50px;">
+        <h2 style="font-family: sans-serif; margin-bottom: 20px;">Tối ưu trải nghiệm!</h2>
+        <p style="font-family: sans-serif; font-size: 18px; line-height: 1.5; padding: 0 20px;">
+            Trình duyệt của TikTok có thể làm lỗi web.<br><br>
+            Vui lòng bấm vào biểu tượng <b>3 chấm (...)</b> ở góc phải phía trên màn hình<br>
+            và chọn <b>"Mở bằng trình duyệt" (Open in browser)</b>.
+        </p>
+        <div style="position: absolute; top: 20px; right: 30px; font-size: 40px;">↗️</div>
+    </div>
     <!-- Script xử lý các tương tác nhỏ và API -->
     <script>
         const productData = [
@@ -288,6 +297,20 @@
             } catch (err) {
                 console.error('Lỗi khi chia sẻ:', err);
             }
+        }
+    </script>
+
+    <script>
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        // Nhận diện trình duyệt ngầm của TikTok, Facebook, Zalo, Instagram...
+        var isInAppBrowser = /TikTok|Bytedance|FBAV|FBAN|Zalo|Instagram/i.test(userAgent);
+
+        if (isInAppBrowser) {
+            // Nếu phát hiện in-app browser, hiển thị màn hình cảnh báo
+            document.getElementById('inapp-warning').style.display = 'block';
+
+            // Ngăn chặn cuộn trang để người dùng phải làm theo hướng dẫn
+            document.body.style.overflow = 'hidden';
         }
     </script>
 </body>
