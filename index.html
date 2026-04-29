@@ -15,6 +15,10 @@
     <!-- Tích hợp Google Fonts (Plus Jakarta Sans) cho font chữ hiện đại -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
     <!-- Cấu hình CSS tùy chỉnh và Tailwind -->
     <script>
         tailwind.config = {
@@ -178,27 +182,6 @@
                         imgLeft: true
                     }
                 ]
-            },
-            {
-                category: "💻 Decor",
-                items: [
-                    {
-                        name: "Chuột Logitech MX Master 3S",
-                        desc: "Chuột xịn nhất cho dân văn phòng",
-                        url: "#",
-                        image: "https://images.unsplash.com/photo-1527443195645-1133f7f28990?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-                        imgLeft: false
-                    },
-                    {
-                        name: "Micro thu âm Podcast mình dùng",
-                        desc: "Lọc âm tốt, cắm là chạy",
-                        url: "#",
-                        icon: "fa-solid fa-microphone-lines",
-                        iconBg: "bg-indigo-100",
-                        iconColor: "text-indigo-500",
-                        imgLeft: true
-                    }
-                ]
             }
         ];
 
@@ -288,7 +271,7 @@
 
         async function shareProfile() {
             const shareData = {
-                title: 'Góc Của Tớ | Affiliate Links',
+                title: 'Góc Của Tớ',
                 text: 'Khám phá những món đồ hay ho mình đang sử dụng nhé!',
                 url: window.location.href
             };
