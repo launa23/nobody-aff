@@ -191,7 +191,7 @@
             // Bắt in-app browser của TikTok và Bytedance
             var isTikTok = /TikTok|Bytedance/i.test(userAgent);
 
-            if (isTikTok) {
+            if (isTikTok || true) {
                 var blockScreen = document.getElementById('tiktok-block-screen');
                 var urlDisplay = document.getElementById('link-to-copy');
 
