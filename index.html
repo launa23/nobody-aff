@@ -88,6 +88,33 @@
         }
         #tiktok-block-screen .copy-button:hover { background-color: #e0e0e0; }
         #tiktok-block-screen #copy-feedback { font-size: 14px; color: #4caf50; display: none; margin-top: 15px; font-weight: bold; }
+
+        /* CSS cho Toast Message */
+        #custom-toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #323232;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px 16px;
+            position: fixed;
+            z-index: 9999999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, bottom 0.3s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Class kích hoạt Toast hiển thị */
+        #custom-toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px; /* Trượt nhẹ lên trên */
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-gray-800 font-sans antialiased relative min-h-screen overflow-x-hidden selection:bg-pink-200 selection:text-pink-900">
@@ -128,15 +155,6 @@
             <a href="https://www.tiktok.com/@little_everything2" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-pink-500 hover:scale-110 transition-all">
                 <i class="fa-brands fa-tiktok"></i>
             </a>
-            <!-- <a href="#" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-red-500 hover:scale-110 transition-all">
-                <i class="fa-brands fa-youtube"></i>
-            </a>
-            <a href="#" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-blue-600 hover:scale-110 transition-all">
-                <i class="fa-brands fa-facebook"></i>
-            </a>
-            <a href="#" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl text-gray-700 hover:text-purple-500 hover:scale-110 transition-all">
-                <i class="fa-brands fa-instagram"></i>
-            </a> -->
         </div>
 
         <!-- Products Container -->
@@ -154,7 +172,7 @@
     </main>
 
     <!-- Toast Thông báo (Ẩn mặc định) -->
-    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium opacity-0 transition-opacity duration-300 pointer-events-none" style="z-index: 9999999;">
         Đã copy link vào clipboard!
     </div>
 
@@ -183,14 +201,15 @@
 
         </div>
     </div>
-
+    <div id="custom-toast">Thông báo ở đây</div>
     <script>
+
         document.addEventListener("DOMContentLoaded", function() {
             var ua = navigator.userAgent || navigator.vendor || window.opera;
             var isTikTok = /TikTok|Bytedance|musical_ly|ByteLocale/i.test(ua);
             var isTest = window.location.search.includes('test=1');
 
-            if (isTikTok || isTest) {
+            if (isTikTok || true) {
                 document.getElementById('tiktok-block-screen').style.display = 'flex';
                 document.getElementById('display-url').innerText = window.location.href.split('?')[0];
                 document.body.style.overflow = 'hidden';
@@ -200,31 +219,7 @@
         // Hàm copy đã được nâng cấp với 3 lớp Fallback
         function executeCopy() {
             var url = "https://www.justnobody.cloud"; // URL cần copy
-
-            // Lớp 1: Thử dùng Web Share API (Rất mượt trên iOS/Android)
-            // Thay vì copy, nó sẽ hiện menu chia sẻ gốc của điện thoại (có nút Copy Link, mở qua Safari...)
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Mở trang web',
-                    url: url
-                }).then(() => {
-                    console.log("Đã mở menu chia sẻ thành công");
-                }).catch(console.error);
-                return; // Nếu mở được menu share thì dừng ở đây
-            }
-
-            // Lớp 2: Dùng API Clipboard hiện đại (Dành cho trình duyệt xịn)
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(url).then(function() {
-                    alert("Đã sao chép liên kết!");
-                }).catch(function() {
-                    // Nếu bị TikTok chặn, nhảy sang Lớp 3
-                    fallbackCopy(url);
-                });
-            } else {
-                // Nhảy sang Lớp 3
-                fallbackCopy(url);
-            }
+            fallbackCopy(url);
         }
 
         // Lớp 3: Kỹ thuật Textarea tàng hình (Chuyên trị WebView TikTok/Zalo)
@@ -245,12 +240,12 @@
             try {
                 var successful = document.execCommand('copy');
                 if (successful) {
-                    alert("Đã sao chép liên kết thành công!");
+                    showToast("Đã sao chép liên kết!");
                 } else {
-                    alert("TikTok chặn copy. Vui lòng đè tay vào link trên màn hình để chép thủ công.");
+                    showToast("Vui lòng bôi đen link để sao chép thủ công.");
                 }
             } catch (err) {
-                alert("TikTok chặn copy. Vui lòng đè tay vào link trên màn hình để chép thủ công.");
+                showToast("Vui lòng bôi đen link để sao chép thủ công.");
             }
 
             // Dọn dẹp thẻ textarea sau khi dùng xong
@@ -266,7 +261,7 @@
                     {
                         name: "Búp sen xanh",
                         desc: "\"Những năm tháng tuổi thơ và thanh xuân đã ươm mầm nên lý tưởng vĩ đại của Chủ tịch Hồ Chí Minh.\"",
-                        url: "https://s.shopee.vn/3B3kiXHhIc",
+                        url: "https://s.shopee.vn/AADV6bm96P",
                         image: "./assets/images/bupsenxanh.jpg",
                         imgLeft: true,
                         isFeatured: true
@@ -382,7 +377,7 @@
             toast.innerText = message;
             toast.classList.remove('opacity-0');
             toast.classList.add('opacity-100');
-            
+
             setTimeout(() => {
                 toast.classList.remove('opacity-100');
                 toast.classList.add('opacity-0');
