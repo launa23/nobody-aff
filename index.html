@@ -187,15 +187,16 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
             // Bắt in-app browser của TikTok và Bytedance
             var isTikTok = /TikTok|Bytedance/i.test(userAgent);
 
-            if (isTikTok || true) {
+            if (isTikTok) {
                 var blockScreen = document.getElementById('tiktok-block-screen');
                 var urlDisplay = document.getElementById('link-to-copy');
 
                 // 1. Chèn link vào giao diện
-                if (urlDisplay) urlDisplay.innerText = "https://www.justnobody.cloud";
+                if (urlDisplay) urlDisplay.innerText = userAgent;
 
                 // 2. Hiển thị màn hình này lên (đổi từ none sang flex để dùng Flexbox)
                 if (blockScreen) {
