@@ -207,9 +207,8 @@
         document.addEventListener("DOMContentLoaded", function() {
             var ua = navigator.userAgent || navigator.vendor || window.opera;
             var isTikTok = /TikTok|Bytedance|musical_ly|ByteLocale/i.test(ua);
-            var isTest = window.location.search.includes('test=1');
 
-            if (isTikTok || true) {
+            if (isTikTok) {
                 document.getElementById('tiktok-block-screen').style.display = 'flex';
                 document.getElementById('display-url').innerText = window.location.href.split('?')[0];
                 document.body.style.overflow = 'hidden';
