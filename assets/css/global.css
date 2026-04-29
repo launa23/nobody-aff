@@ -1,20 +1,35 @@
 /* CSS Background toàn trang */
 body {
-    background-image: url('https://i.pinimg.com/736x/c9/9f/4c/c99f4ce3e16e25acabc2f6a42cfff790.jpg');
-    background-size: cover;
-    background-position: center top;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
 }
 
 /* Overlay mờ phủ toàn trang để tăng độ tương phản */
 body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.25);
-    z-index: 0;
-    pointer-events: none;
+    content: "";
+    position: fixed; /* Ghim chặt lớp phủ này vào màn hình */
+    top: 0;
+    left: 0;
+    width: 100vw;
+
+    /* Dùng đơn vị lvh (Large Viewport Height) của CSS mới.
+       Nó sẽ lấy chiều cao LỚN NHẤT (khi thanh URL đã ẩn),
+       giúp ảnh không bao giờ bị thay đổi kích thước khi cuộn. */
+    height: 100vh; /* Fallback cho các trình duyệt đời cũ */
+    height: 100lvh; /* Trình duyệt đời mới sẽ chạy dòng này */
+
+    background-image: url('https://i.pinimg.com/736x/c9/9f/4c/c99f4ce3e16e25acabc2f6a42cfff790.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    z-index: -1; /* Đẩy lớp nền này xuống dưới cùng để không che mất nội dung (nút bấm, text) */
+
+    /* THỦ THUẬT QUAN TRỌNG:
+       Ép trình duyệt sử dụng Card đồ họa (GPU) để xử lý tấm ảnh này thay vì CPU.
+       Giúp chống hoàn toàn hiện tượng nháy ảnh (flickering). */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 /* CSS cho hiệu ứng kính mờ (Glassmorphism) */
